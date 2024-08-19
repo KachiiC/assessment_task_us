@@ -1,0 +1,77 @@
+.server {
+  &-container {
+    h1 {
+      text-align: center;
+    }
+  }
+
+  &-status {
+    &-card {
+      // background: white;
+      color: white;
+      background: #d7a1f9;
+    }
+
+    &-line {
+      margin: 8px 0px;
+      display: flex;
+      font-size: 12px;
+      align-items: center;
+      font-weight: 600;
+    }
+  }
+
+  &-services-card,
+  &-status-card {
+    padding: 16px;
+    border-radius: 4px;
+    margin: 8px 0px;
+    color: white;
+    background: #d7a1f9;
+  }
+
+  &-data {
+    display: flex;
+  }
+
+  &-overview {
+    padding: 8px;
+    min-width: 250px;
+
+    h2 {
+      margin-top: 0px;
+    }
+  }
+
+  &-stats {
+    display: flex;
+    flex-wrap: wrap;
+    
+    &-single {
+      padding: 8px;
+      width: 240px;
+      background: orange;
+      margin: 4px 16px;
+      border-radius: 4px;
+    }
+  }
+}
+
+.service-worker {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    text-align: center;
+  }
+
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+    // justify-content: space-evenly;
+  }
+
+  &-single {
+    margin-bottom: 24px;
+  }
+}
