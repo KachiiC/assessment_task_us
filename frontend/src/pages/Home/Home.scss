@@ -20,6 +20,14 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 16px;
+
+    &-link {
+      text-decoration: none;
+    }
+
+    &-single {
+      border: 1px solid #ebebeb;
+    }
   }
 
   &-container {

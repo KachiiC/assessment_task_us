@@ -16,8 +16,8 @@ export const HomeCard = ({ image, name, value }: IHomeCards) => {
   };
 
   return (
-    <Card style={homeCardStyles} cover={<img alt="example" src={image} />}>
-      <Meta title={value} description={name} />
+    <Card style={homeCardStyles} cover={<img alt="example" src={image} className="home-cards-single"/>}>
+      <Meta title={value} description={name}/>
     </Card>
   );
 };

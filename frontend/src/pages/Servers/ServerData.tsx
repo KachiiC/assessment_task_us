@@ -1,15 +1,55 @@
-import { Empty, Statistic } from "antd";
+import { Button, Card, Empty, Statistic } from "antd";
 import { IServerData } from "./Server.types";
-import { ServerSockets, ServerStatus, ServerBoolean, ServerWorkersList } from "./ServerComponents";
+import { ServerSockets, ServerStatus, ServerBoolean } from "./ServerComponents";
+import ServerWorkersTable from "./ServerWorkersTable";
+import { useDataFetch } from "../../services/dataFetch";
+import { useAppContext } from "../../context/useAppContext";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 
 export const ServerData = ({ data, error }: IServerData) => {
+  const { dispatch } = useAppContext();
+  const { region } = useParams();
+  const [refreshing, setRefreshing] = useState(false);
+
   if (error) {
-    return  <Empty />;
+    return <Empty />;
   }
 
   const { services, stats } = data?.results;
 
-  const regionWorkers = data.results.stats.server.workers
+  const regionWorkers = data.results.stats.server.workers.map(
+    (obj: any, index: number) => {
+      return {
+        key: index,
+        name: obj[0],
+        ...obj[1]
+      };
+    }
+  );
+
+  const refreshCurrentServer = async () => {
+    const fetchUrl = `${process.env.REACT_APP_API_ENDPOINT}/${region}`;
+
+    setRefreshing(true)
+
+    fetch(fetchUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: "refresh_server",
+          payload: {
+            [region as string]: data
+          }
+        });
+        setRefreshing(false);
+      })
+      .catch((err) => {
+        console.log("useDataFetch error", err);
+        setRefreshing(false)
+      });
+  };
 
   return (
     <>
@@ -43,31 +83,39 @@ export const ServerData = ({ data, error }: IServerData) => {
           </div>
         </div>
         <div className="server-stats">
-          <div className="server-stats-single">
+          <Card className="server-stats-single">
             <Statistic title="Servers Count" value={stats?.servers_count} />
-          </div>
-          <div className="server-stats-single">
+          </Card>
+          <Card className="server-stats-single">
             <Statistic title="Online" value={stats?.online} />
-          </div>
-          <div className="server-stats-single">
+          </Card>
+          <Card className="server-stats-single">
             <Statistic title="Session" value={stats?.session} />
-          </div>
-          <div className="server-stats-single">
+          </Card>
+          <Card className="server-stats-single">
             <Statistic
               title="Active Connections"
               value={stats?.server?.active_connections}
             />
-          </div>
-          <div className="server-stats-single">
+          </Card>
+          <Card className="server-stats-single">
             <Statistic title="Wait Time" value={stats?.server?.wait_time} />
-          </div>
+          </Card>
         </div>
+      </div>
+      <div className="refresh-container">
+        <Button
+          type="primary"
+          onClick={refreshCurrentServer}
+          icon={refreshing ? <LoadingOutlined /> : <ReloadOutlined />}
+        >
+          Refresh Server
+        </Button>
       </div>
       <div className="server-worker">
         <h2>Server Workers</h2>
-        <ServerWorkersList workers={regionWorkers}/>
+        <ServerWorkersTable tableData={regionWorkers} />
       </div>
-      <pre>{JSON.stringify(data.results.stats.server.workers, null, 2)}</pre>
     </>
   );
 };

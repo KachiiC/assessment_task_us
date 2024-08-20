@@ -29,3 +29,15 @@ export interface IServerWorkers {
   workersObj: IWorker;
   workersType: string;
 }
+
+export interface IServerTableDataType {
+  key: number;
+  name: string;
+  wait_time: number;
+  workers: number;
+  waiting: number;
+  idle: number;
+  recently_blocked_keys: (string | number)[][];
+  time_to_return: number;
+  top_keys: (string | number)[][];
+}

@@ -5,11 +5,15 @@ import { HomeCard } from "./HomeCards";
 import { HomeTitle } from "./HomeTitle";
 import "./Home.scss";
 import SiteNavbar from "../../components/SiteNavbar";
+import { Link } from "react-router-dom";
 
 export const Home: FC = () => {
   const { Grid } = Card;
+
   const displayedHomeCards = regionList.map(({ name, value, image }, index) => (
-    <HomeCard name={name} value={value} image={image} key={index} />
+    <Link key={index} to={`/server/${value}`} className="home-cards-link">
+      <HomeCard name={name} value={value} image={image} key={index} />
+    </Link>
   ));
 
   return (
