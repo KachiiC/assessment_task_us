@@ -1,5 +1,5 @@
-import { serverCacheMiddleware } from "../cache/serverCache";
-import { serverController } from "../controllers/serverController";
+import { allServerCacheMiddleware, serverCacheMiddleware } from "../cache/serverCache";
+import { allServers, serverController } from "../controllers/serverController";
 import { IRouterRoute } from "./router.types";
 
 export const routes: IRouterRoute[] = [
@@ -8,5 +8,11 @@ export const routes: IRouterRoute[] = [
     path: "/server/:region",
     controller: serverController,
     middleware: serverCacheMiddleware
-  }
+  },
+  {
+    method: "get",
+    path: "/all",
+    controller: allServers,
+    middleware: allServerCacheMiddleware
+  },
 ];
