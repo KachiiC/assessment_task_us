@@ -7,5 +7,4 @@ export const protectionConfig = {
   maxRssBytes: 0,
   errorPropagationMode: false,
   logging: false,
-  logStatsOnReq: false
 };
